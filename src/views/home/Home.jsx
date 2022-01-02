@@ -11,7 +11,7 @@ import Pins from "../../components/pins/Pins";
 import { client } from '../../services/sanity.service';
 import logo from '../../assets/logo.png';
 
-import { userQuery } from "../../utils/user";
+import { fetchUser, userQuery } from "../../utils/user";
 
 const Home = () => {
 
@@ -21,7 +21,7 @@ const Home = () => {
   const scrollRef = useRef(null);
 
   useEffect(()=>{
-    const profile = localStorage.getItem('user') === undefined ? localStorage.clear() : JSON.parse(localStorage.getItem('user'));
+    const profile = fetchUser();
 
     const query = userQuery(profile?.googleId);
 
