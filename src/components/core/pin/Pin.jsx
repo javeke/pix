@@ -48,6 +48,8 @@ const Pin = ({ pin })=>{
     <div 
       onMouseEnter={()=>setPostHovered(true)}
       onMouseLeave={()=>setPostHovered(false)}
+      onTouchStart={()=>setPostHovered(true)}
+      onTouchEnd={()=>setPostHovered(false)}
       onClick={()=> navigate(`/pin-detail/${pin._id}`)}
       className="relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
     >
@@ -86,10 +88,10 @@ const Pin = ({ pin })=>{
               {
                 pin?.destination && (
                   <a href={pin?.destination} target="_blank" rel="noreferrer"
-                    className="bg-white flex items-center gap-2 text-black font-bold py-2 px-4 rounded-full opacity:70 hover:opacity-100 hover:shadow-md"
+                    className="bg-white flex items-center gap-2 text-black py-2 px-4 rounded-full opacity:70 hover:opacity-100 hover:shadow-md"
                   >
                     <BsFillArrowUpRightCircleFill />
-                    { pin?.destination.length > 20 ?  pin?.destination.slice(8, 20) : pin?.destination.slice(8)}
+                    { pin?.destination.length > 15 ?  `${pin?.destination.slice(0, 15)}...` : pin?.destination}
                   </a>
                 )
               }
