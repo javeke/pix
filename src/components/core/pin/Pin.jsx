@@ -16,14 +16,14 @@ const Pin = ({ pin })=>{
 
   const user = fetchUser();
 
-  const alreadySaved = !!(pin?.save?.filter((item)=>item.postedBy.id === user.googleId)?.length);
+  const alreadySaved = !!(pin?.save?.filter((item)=>item.postedBy._id === user.googleId)?.length);
 
   const savePin = id =>{
     if(!alreadySaved){
       setSavingPost(true);
       
       client.patch(id).setIfMissing({ save: []})
-      .insert('after', 'save[-1', [{
+      .insert('after', 'save[-1]', [{
         _key: uuidv4(),
         userId: user.googleId,
         postedBy: {

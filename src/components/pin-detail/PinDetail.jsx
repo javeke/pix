@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MdDownloadForOffline } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -69,10 +69,11 @@ const PinDetail = ({ user })=>{
     }
   }
 
+  const memoFetchPinDetails = useCallback(fetchPinDetails, [pinId]);
 
   useEffect(()=>{
-    fetchPinDetails();
-  }, [pinId]);
+    memoFetchPinDetails();
+  }, [pinId, memoFetchPinDetails]);
 
   if(!pinDetail) return <Spinner message="Loading pin..." />;
 

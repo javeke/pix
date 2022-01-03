@@ -1,4 +1,4 @@
-export const categorySearchQuery = searchTerm => `*[_type == "pin" && title match '${searchTerm}*' || category match '${searchTerm}*' || about match '${searchTerm}*']{
+export const searchQuery = searchTerm => `*[_type == "pin" && title match '${searchTerm}*' || category match '${searchTerm}*' || about match '${searchTerm}*']{
   image {
     asset -> {
       url
