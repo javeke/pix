@@ -17,6 +17,11 @@ const Login = () => {
     if(!response){
       return;
     }
+
+    if(JSON.stringify(response?.profileObj) === 'undefined' || JSON.stringify(response?.profileObj) === ''){
+      return;
+    }
+    
     localStorage.setItem('user', JSON.stringify(response?.profileObj));
 
     const { name, googleId, imageUrl } = response.profileObj;
