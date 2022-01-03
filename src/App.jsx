@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import Login from './views/login/Login';
 import Home from './views/home/Home';
+import { fetchUser } from './utils/user';
 
 function App() { 
   
@@ -11,9 +12,9 @@ function App() {
 
   useEffect(()=>{
 
-    const profileString = localStorage.getItem('user');
+    const profileString = fetchUser();
 
-    if(!profileString){
+    if(!profileString || profileString === 'undefined'){
       navigate('/login', { replace: true });
     }
 

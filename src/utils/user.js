@@ -1,6 +1,6 @@
 export const userQuery = userId => `*[_type ==  "user" && _id == '${userId}']`;
 
-export const fetchUser = _ => localStorage.getItem('user') === undefined ? localStorage.clear() : JSON.parse(localStorage.getItem('user'));
+export const fetchUser = () => localStorage.getItem('user') === undefined || localStorage.getItem('user') === 'undefined' ? localStorage.clear() : JSON.parse(localStorage.getItem('user'));
 
 export const userCreatedPinsQuery = (userId) => {
   const query = `*[ _type == 'pin' && userId == '${userId}'] | order(_createdAt desc){
