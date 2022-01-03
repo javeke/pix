@@ -27,7 +27,7 @@ const Home = () => {
 
     client.fetch(query)
     .then((response)=>setUser(response[0]))
-    .catch((error)=> alert("Please login again"));
+    .catch(()=> alert("Please login again"));
 
   }, []);
 
