@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 import Login from './views/login/Login';
 import Home from './views/home/Home';
 
-import './App.css';
-
 function App() { 
   
   const location = useLocation();
