@@ -18,7 +18,7 @@ function App() {
       navigate('/login', { replace: true });
     }
 
-    if(profileString && location.pathname === '/login'){
+    if(profileString && profileString !== 'undefined' && location.pathname === '/login'){
       navigate('/', { replace: true });
     }
 

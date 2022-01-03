@@ -36,6 +36,7 @@ const CreatePin = ({ user })=>{
       })
       .then( document =>{
         setImageAsset(document);
+        setDestination(document?.url);
         setLoading(false);
       })
       .catch(error => alert("Failed to upload image"));
@@ -145,14 +146,7 @@ const CreatePin = ({ user })=>{
             value={about}
             onChange={(event)=> setAbout(event.target.value)}
             className="text-base border-b-2 border-gray-200 p-2"
-          /> 
-          <input 
-            type="text" 
-            placeholder="Add a destination link"
-            value={destination}
-            onChange={(event)=> setDestination(event.target.value)}
-            className="text-base border-b-2 border-gray-200 p-2"
-          /> 
+          />
           <div className="flex flex-col">
             <div>
               <p className="mb-3 font-semibold">Choose pin category</p>

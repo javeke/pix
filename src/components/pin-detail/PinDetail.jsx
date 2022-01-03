@@ -105,8 +105,9 @@ const PinDetail = ({ user })=>{
               {pinDetail.title}
             </h1>
             <p className="mt-3">{pinDetail.about}</p>
+            <small className="mt-3 capitalize text-xs text-gray-600">{pinDetail.category}</small>
           </div>
-          <Link to={`user-profile/${pinDetail?.postedBy?._id}`} className="flex gap-2 mt-5 items-center bg-white rounded-lg" >
+          <Link to={`/user-profile/${pinDetail?.postedBy?._id}`} className="flex gap-2 mt-5 items-center bg-white rounded-lg" >
             <img src={pinDetail?.postedBy?.image} alt="user profile" 
               className="w-8 h-8 rounded-full object-cover"
             />
@@ -117,16 +118,16 @@ const PinDetail = ({ user })=>{
             {
               pinDetail?.comments?.map(comment => (  
               <div key={comment} className="flex gap-2 mt-5 items-center rounded-lg bg-white">
-                <img src={comment.postedBy.image} alt="user profile" className="w-10 h-10 rounded-full cursor-pointer" />
+                <Link to={`/user-profile/${comment.postedBy?._id}`}><img src={comment.postedBy.image} alt="user profile" className="w-8 h-8 rounded-full cursor-pointer" /></Link>
                 <div className="flex flex-col">
-                  <p className="font-bold">{comment.postedBy.userName}</p>
-                  <p>{comment.comment}</p>
+                  <p className="font-semibold">{comment.postedBy.userName}</p>
+                  <p className="text-sm">{comment.comment}</p>
                 </div>
               </div>))
             }
           </div>
           <div className="flex flex-wrap mt-6 gap-3">
-            <Link to={`user-profile/${user?._id}`}>
+            <Link to={`/user-profile/${user?._id}`}>
               <img src={user?.image} alt="user profile" 
                 className="w-10 h-10 rounded-full cursor-pointer"
               />

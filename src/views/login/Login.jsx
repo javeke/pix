@@ -24,7 +24,7 @@ const Login = () => {
     
     localStorage.setItem('user', JSON.stringify(response?.profileObj));
 
-    const { name, googleId, imageUrl } = response.profileObj;
+    const { name, googleId, imageUrl } = response?.profileObj;
 
     const doc = {
       _id: googleId,

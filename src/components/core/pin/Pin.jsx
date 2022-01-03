@@ -44,7 +44,7 @@ const Pin = ({ pin })=>{
   }
    
 
-  return <div className="m-2">
+  return <div className="m-2 shadow-md pb-2 rounded-md">
     <div 
       onMouseEnter={()=>setPostHovered(true)}
       onMouseLeave={()=>setPostHovered(false)}
@@ -112,7 +112,7 @@ const Pin = ({ pin })=>{
           </div>
         )}
     </div>
-    <Link to={`user-profile/${pin?.postedBy?._id}`} className="flex gap-2 mt-2 items-center" >
+    <Link to={`/user-profile/${pin?.postedBy?._id}`} className="flex gap-2 mt-2 items-center" >
       <img src={pin?.postedBy?.image} alt="user profile" 
         className="w-8 h-8 rounded-full object-cover"
       />
