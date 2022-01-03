@@ -11,6 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Add environment variables
+        env: 
+          REACT_APP_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_OAUTH_CLIENT_ID }}
+          REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET }}
+          REACT_APP_SANITY_API_VERSION: ${{ secrets.REACT_APP_SANITY_API_VERSION }}
+          REACT_APP_SANITY_DATAESET: ${{ secrets.REACT_APP_SANITY_DATAESET }}
+          REACT_APP_SANITY_TOKEN: ${{ secrets.REACT_APP_SANITY_TOKEN }}
+          REACT_APP_SANITY_TOKEN_ALL_ACCESS: ${{ secrets.REACT_APP_SANITY_TOKEN_ALL_ACCESS }}
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
