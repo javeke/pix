@@ -2,6 +2,7 @@ import { client, urlFor } from "../../../services/sanity.service";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import { isMobile } from 'react-device-detect'
 
 import { MdDownloadForOffline } from 'react-icons/md';
 import { AiTwotoneDelete } from 'react-icons/ai';
@@ -55,7 +56,7 @@ const Pin = ({ pin })=>{
       className="relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
     >
         <img src={urlFor(pin.image).width(250).url()} alt="Pin" className="rounded-lg w-full" />
-        { postHovered && (
+        { (postHovered || isMobile) && (
           <div className="absolute top-0 w-full h-full flex flex-col justify-between p-2 pl-1 z-50">
             <div className="flex items-center justify-between">
               <div className="flex gap-2">
@@ -99,13 +100,13 @@ const Pin = ({ pin })=>{
               {
                 pin?.postedBy?._id ===  user.googleId && (
                   <button type="button" 
-                    className="bg-white p-2 text-dark rounded-3xl opacity-70 hover:opacity-100 font-bold text-base hover:shadow-md"
+                    className="bg-white p-3 md:p-2 text-dark rounded-3xl opacity-70 hover:opacity-100 font-bold text-base hover:shadow-md"
                     onClick={(e)=>{
                       e.stopPropagation();
                       deletePin(pin?._id);
                     }}
                   >
-                    <AiTwotoneDelete />
+                    <AiTwotoneDelete fontSize={ isMobile ? 21 : 16}/>
                   </button>
                 )
               }
