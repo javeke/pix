@@ -8,6 +8,7 @@ export const pinDetailQuery = (pinId) => {
     _id,
     title, 
     about,
+    _createdAt,
     category,
     destination,
     postedBy->{
@@ -43,6 +44,7 @@ export const pinDetailMorePinQuery = (pin) => {
       }
     },
     _id,
+    _createdAt,
     destination,
     postedBy->{
       _id,

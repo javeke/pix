@@ -10,6 +10,7 @@ export const userCreatedPinsQuery = (userId) => {
       }
     },
     _id,
+    _createdAt,
     destination,
     postedBy->{
       _id,
@@ -35,6 +36,7 @@ export const userSavedPinsQuery = (userId) => {
       }
     },
     _id,
+    _createdAt,
     destination,
     postedBy->{
       _id,

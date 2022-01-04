@@ -5,6 +5,7 @@ export const searchQuery = searchTerm => `*[_type == "pin" && title match '${sea
     }
   },
   _id,
+  _createdAt,
   destination,
   postedBy -> {
     _id,
@@ -29,6 +30,7 @@ export const feedQuery = `*[_type == "pin"] | order(_createAt desc){
     }
   },
   _id,
+  _createdAt,
   destination,
   postedBy -> {
     _id,
