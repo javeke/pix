@@ -7,6 +7,7 @@ import { MdDownloadForOffline } from 'react-icons/md';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
 import { fetchUser } from "../../../utils/user";
+import { formatDateTime } from "../../../utils/funcs";
 
 const Pin = ({ pin })=>{
 
@@ -112,11 +113,12 @@ const Pin = ({ pin })=>{
           </div>
         )}
     </div>
-    <Link to={`/user-profile/${pin?.postedBy?._id}`} className="flex gap-2 mt-2 items-center" >
-      <img src={pin?.postedBy?.image} alt="user profile" 
+    <Link to={`/user-profile/${pin?.postedBy?._id}`} className="flex flex-wrap md:gap-2 gap-3 mt-2 items-center" >
+      <img src={pin?.postedBy?.image} alt="user" 
         className="w-8 h-8 rounded-full object-cover"
       />
       <p className="font-semibold capitalize">{pin?.postedBy?.userName}</p>
+      <p className="ml-auto mr-3 text-xs">{formatDateTime(pin?._createdAt)}</p>
     </Link>
   </div>;
 }
