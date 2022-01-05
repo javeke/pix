@@ -62,7 +62,7 @@ const SideBar = ({ user, closeToggle })=>{
       )}
 
       {
-        true && (
+        !user.userId && (
           <button 
             type="button"
             className="flex my-5 p-3 text-white gap-2 items-center bg-red-500 rounded-lg shadow-lg mx-3"
