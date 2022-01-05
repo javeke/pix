@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
-import { GoogleLogout } from 'react-google-login';
 
 import { userQuery, userCreatedPinsQuery, userSavedPinsQuery } from "../../utils/user";
 
 import { client } from "../../services/sanity.service";
 import MasonryLayout from "../core/masonry-layout/MasonryLayout";
 import Spinner from "../core/spinner/Spinner";
-import { OAUTH_CLIENT_ID } from '../../config';
+import { firebaseAuthSignOut } from "../../services/firebase.service";
 
 const randomImage = 'https://source.unsplash.com/720x600?render,digital-image,nature,photography,technology,architecture,computer,coding';
 
@@ -68,7 +67,8 @@ const UserProfile = ()=>{
     }
   },[text, userId]);
 
-  const logout = () =>{
+  const logout = async () =>{
+    await firebaseAuthSignOut();
     localStorage.clear();
     navigate('/login');
   }
@@ -88,20 +88,12 @@ const UserProfile = ()=>{
               <div className="absolute top-0 z-1 right-0 p-2">
                 {
                   userId === user?._id && (
-                    <GoogleLogout 
-                      clientId={OAUTH_CLIENT_ID}
-                      render={(renderProps)=>(
-                        <button 
-                          className="bg-white p-2 rounded-full cursor-pointer shadow-md"
-                          onClick={renderProps.onClick}
-                          disabled={renderProps.disabled}
-                        >
-                          <AiOutlineLogout color="red" fontSize={21} />
-                        </button>
-                      )}
-                      onLogoutSuccess={logout}
-                      cookiePolicy="single_host_origin"
-                    />
+                    <button 
+                      className="bg-white p-2 rounded-full cursor-pointer shadow-md"
+                      onClick={logout}
+                    >
+                      <AiOutlineLogout color="red" fontSize={21} />
+                    </button>
                   )
                 }
               </div>

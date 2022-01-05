@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(()=>{
     const profile = fetchUser();
 
-    const query = userQuery(profile?.googleId);
+    const query = userQuery(profile?.userId);
 
     client.fetch(query)
     .then((response)=>setUser(response[0]))

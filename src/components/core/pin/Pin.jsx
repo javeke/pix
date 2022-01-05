@@ -18,7 +18,7 @@ const Pin = ({ pin })=>{
 
   const user = fetchUser();
 
-  const alreadySaved = !!(pin?.save?.filter((item)=>item?.postedBy?._id === user?.googleId)?.length);
+  const alreadySaved = !!(pin?.save?.filter((item)=>item?.postedBy?._id === user?.userId)?.length);
 
   const savePin = id =>{
     if(!alreadySaved){
@@ -27,10 +27,10 @@ const Pin = ({ pin })=>{
       client.patch(id).setIfMissing({ save: []})
       .insert('after', 'save[-1]', [{
         _key: uuidv4(),
-        userId: user.googleId,
+        userId: user.userId,
         postedBy: {
           _type: 'postedBy',
-          _ref: user.googleId
+          _ref: user.userId
         }
       }]).commit()
       .then(()=>{
@@ -98,7 +98,7 @@ const Pin = ({ pin })=>{
                 )
               }
               {
-                pin?.postedBy?._id ===  user.googleId && (
+                pin?.postedBy?._id ===  user.userId && (
                   <button type="button" 
                     className="bg-white p-3 md:p-2 text-dark rounded-3xl opacity-70 hover:opacity-100 font-bold text-base hover:shadow-md"
                     onClick={(e)=>{

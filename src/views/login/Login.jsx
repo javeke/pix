@@ -1,11 +1,11 @@
-import GoogleLogin from 'react-google-login';
 import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 
+import { googleSignIn, twitterSignIn } from '../../services/firebase.service';
+import { AiOutlineTwitter } from 'react-icons/ai';
+
 import share from '../../assets/share.mp4';
 import logo from '../../assets/logowhite.png';
-
-import { OAUTH_CLIENT_ID } from '../../config';
 
 import { client } from '../../services/sanity.service';
  
@@ -13,24 +13,21 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const responseGoogle = async (response) => {
-    if(!response){
-      return;
-    }
+  const handleResponse = async response => {
 
-    if(JSON.stringify(response?.profileObj) === 'undefined' || JSON.stringify(response?.profileObj) === ''){
-      return;
-    }
-    
-    localStorage.setItem('user', JSON.stringify(response?.profileObj));
+    const { displayName, uid, photoURL } = response;
 
-    const { name, googleId, imageUrl } = response?.profileObj;
+    const user = {
+      name: displayName , userId: uid, imageUrl: photoURL
+    };
+
+    localStorage.setItem('user', JSON.stringify(user));
 
     const doc = {
-      _id: googleId,
+      _id: uid,
       _type:'user',
-      userName: name,
-      image: imageUrl
+      userName: displayName,
+      image: photoURL
     };
 
     try{
@@ -40,6 +37,28 @@ const Login = () => {
     catch(error){
       alert('Authentication failed');
     }
+  }
+
+  const responseGoogle = async () => {
+    const response = await googleSignIn();
+
+    if(!response){
+      alert('Authentication failed');
+      return;
+    }
+
+    await handleResponse(response);
+  }
+
+  const responseTwitter = async () => {
+    const response = await twitterSignIn();
+
+    if(!response){
+      alert('Authentication failed');
+      return;
+    }
+
+    await handleResponse(response);
   }
 
   return (
@@ -53,23 +72,23 @@ const Login = () => {
           <div className="p-5">
             <img src={logo} width="130px" alt="Logo" />
           </div>
+          <div className="shadow-2xl mb-2">
+            <button 
+              className="flex w-200 gap-2 items-center rounded px-4 py-2 bg-mainColor"
+              onClick={responseGoogle}
+            >
+              <FcGoogle />
+              <span>Sign in with Google</span>
+            </button>
+          </div>
           <div className="shadow-2xl">
-            <GoogleLogin 
-              clientId={OAUTH_CLIENT_ID}
-              render={(renderProps)=>(
-                <button 
-                  className="flex gap-2 items-center rounded px-4 py-2 bg-mainColor"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <FcGoogle />
-                  <span>Sign in with Google</span>
-                </button>
-              )}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy="single_host_origin"
-            />
+            <button 
+              className="flex w-200 gap-2 items-center rounded px-4 py-2 bg-mainColor"
+              onClick={responseTwitter}
+            >
+              <AiOutlineTwitter color='#00acee' />
+              <span>Sign in with Twitter</span>
+            </button>
           </div>
         </div>
       </div>
