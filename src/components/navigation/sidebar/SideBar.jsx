@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { RiHomeFill } from 'react-icons/ri';
 
 import logo from '../../../assets/logo.png';
@@ -11,6 +11,13 @@ const SideBar = ({ user, closeToggle })=>{
 
   const handleCloseSideBar = ()=>{
     !!closeToggle && closeToggle(false);
+  }
+
+  const navigate = useNavigate();
+
+  const forceLogout = async () =>{
+    localStorage.clear();
+    navigate('/login');
   }
 
   return (
@@ -46,13 +53,28 @@ const SideBar = ({ user, closeToggle })=>{
       {user && (
         <Link 
           to={`user-profile/${user._id}`}
-          className="flex my-5 pb-3 gap-2 items-center bg-white rounded-lg shadow-lg mx-3"
+          className="flex mt-5 pb-3 gap-2 items-center bg-white rounded-lg shadow-lg mx-3"
           onClick={handleCloseSideBar}
         >
           <img src={user.image} alt="Profile" className="w-10 h-10 rounded-full" />
           <p>{user.userName}</p>
         </Link>
       )}
+
+      {
+        true && (
+          <button 
+            type="button"
+            className="flex my-5 p-3 text-white gap-2 items-center bg-red-500 rounded-lg shadow-lg mx-3"
+            onClick={async ()=> {
+              handleCloseSideBar();
+              await forceLogout();
+            }}
+          >
+            Logout
+        </button>
+        )
+      }
     </div>
   );
 }
