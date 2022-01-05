@@ -3,6 +3,7 @@ import { RiHomeFill } from 'react-icons/ri';
 
 import logo from '../../../assets/logo.png';
 import { categories } from '../../../utils/category';
+import { fetchUser } from "../../../utils/user";
 
 const SideBar = ({ user, closeToggle })=>{
 
@@ -14,6 +15,8 @@ const SideBar = ({ user, closeToggle })=>{
   }
 
   const navigate = useNavigate();
+
+  const profile = fetchUser();
 
   const forceLogout = async () =>{
     localStorage.clear();
@@ -62,7 +65,7 @@ const SideBar = ({ user, closeToggle })=>{
       )}
 
       {
-        !user.userId && (
+        !profile?.userId && (
           <button 
             type="button"
             className="flex my-5 p-3 text-white gap-2 items-center bg-red-500 rounded-lg shadow-lg mx-3"
