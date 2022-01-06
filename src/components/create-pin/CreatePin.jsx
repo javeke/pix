@@ -12,15 +12,25 @@ import { categories } from "../../utils/category";
 const CreatePin = ({ user })=>{
 
   const [title, setTitle] = useState('');
+  const [errorTitle, setErrorTitle] = useState(true);
+
   const [about, setAbout] = useState('');
+  const [errorAbout, setErrorAbout] = useState(true);
+
   const [destination, setDestination] = useState('');
+
   const [loading, setLoading] = useState(false);
-  const [fields, setFields] = useState(null);
+
   const [category, setCategory] = useState(null);
+  const [errorCategory, setErrorCategory] = useState(true);
+
   const [imageAsset, setImageAsset] = useState(null);
+  const [errorImage, setErrorImage] = useState(true);
   const [wrongImageType, setWrongImageType] = useState(false);
 
-
+  const [buttonColor, setButtonColor] = useState("bg-red-500");
+  const [isAddingPin, setIsAddingPin] = useState(false);
+  
   const navigate = useNavigate();
 
   const uploadImage = event =>{
@@ -47,6 +57,54 @@ const CreatePin = ({ user })=>{
   };
 
   const savePin = () => {
+    setButtonColor("bg-red-700");
+    setIsAddingPin(true);
+
+    if(!title?.trim()){
+        setErrorTitle(true);
+        
+        setTimeout(()=>{
+          setErrorTitle(false);
+        }, 3000);
+    }
+    else{
+      setErrorTitle(false);
+    }
+
+    if(!about?.trim()){
+      setErrorAbout(true);
+      
+      setTimeout(()=>{
+        setErrorAbout(false);
+      }, 3000);
+    }
+    else{
+      setErrorAbout(false);
+    }
+
+    if(!category){
+      setErrorCategory(true);
+      
+      setTimeout(()=>{
+        setErrorCategory(false);
+      }, 3000);
+    }
+    else{
+      setErrorCategory(false);
+    }
+
+    if(!imageAsset){
+      setErrorImage(true);
+      
+      setTimeout(()=>{
+        setErrorImage(false);
+      }, 3000);
+    }
+    else{
+      setErrorImage(false);
+    }
+
+
     if(title && about && destination && imageAsset?._id && category) {
       const doc = {
         _type: 'pin',
@@ -74,19 +132,15 @@ const CreatePin = ({ user })=>{
         alert("Failed to add pin");
       });
     }
-    else{
-      setFields(true);
-      setTimeout(_ => setFields(false), 3000);
-    }
+
+    setTimeout(()=>{
+      setIsAddingPin(false);
+      setButtonColor("bg-red-500");
+    }, 3000);
   }
 
   return (
     <div className="flex flex-col justify-center items-center mt-5 lg:h-4/5">
-      {
-        fields && (
-          <p className="text-red-500 mb-5 text-xl transition-all duration-150 ease-in">Please fill in all the fields</p>
-        ) 
-      }
       <div className="flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5 w-full">
         <div className="bg-secondaryColor p-3 flex flex-0 7 w-full">
           <div className="flex-justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420">
@@ -98,11 +152,11 @@ const CreatePin = ({ user })=>{
                     <p className="font-bold text-2xl">
                       <AiOutlineCloudUpload />
                     </p>
-                    <p className="text-lg">
+                    <p className={`text-lg ${isAddingPin && errorImage ? "text-red-400" : "text-inherit" }`}>
                       Click to upload
                     </p>
                   </div>
-                  { wrongImageType && ( <p className="mt-16">Wrong image type</p>) }
+                  { wrongImageType && ( <p className="mt-16 text-red-400">Wrong image type</p>) }
                   <p className="mt-10 text-gray-400">
                     Use high quality JPEG, SVG, PNG, GIF or TIFF less than 20MB
                   </p>
@@ -125,13 +179,16 @@ const CreatePin = ({ user })=>{
         </div>
 
         <div className="flex flex-1 flex-col gap-6 lg:pl-5 mt-5 w-full">
-          <input 
-            type="text" 
-            placeholder="Add your title"
-            value={title}
-            onChange={(event)=> setTitle(event.target.value)}
-            className="font-bold border-b-2 border-gray-200 p-2"
-          /> 
+          <div>
+            <input
+              type="text"
+              placeholder="Add your title"
+              value={title}
+              onChange={(event)=> setTitle(event.target.value)}
+              className={`font-bold border-b-2 p-2 ${ isAddingPin && errorTitle ? "border-red-400" : "border-gray-200"}`}
+            />
+            { isAddingPin && errorTitle && <small className="text-red-400">Add a title</small>}
+          </div>
           {
             user && (
               <div className="flex gap-2 my-2 items-center bg-white rounded-lg">
@@ -140,19 +197,22 @@ const CreatePin = ({ user })=>{
               </div>
             )
           }
-          <input 
-            type="text" 
-            placeholder="What is your pin about?"
-            value={about}
-            onChange={(event)=> setAbout(event.target.value)}
-            className="text-base border-b-2 border-gray-200 p-2"
-          />
+          <div>
+            <input
+              type="text"
+              placeholder="What is your pin about?"
+              value={about}
+              onChange={(event)=> setAbout(event.target.value)}
+              className={`text-base border-b-2 p-2 ${ isAddingPin && errorAbout ? "border-red-400" : "border-gray-200"}`}
+            />
+            { isAddingPin && errorAbout && <small className="text-red-400">Add a description</small>}
+          </div>
           <div className="flex flex-col">
             <div>
               <p className="mb-3 font-semibold">Choose pin category</p>
               <select name="destination" id="destination" 
                 onChange={event=> setCategory(event.target.value)}
-                className="w-4/5 text-base border-b-2 border-gray-200 rounded-md p-2 cursor-pointer"
+                className={`w-4/5 text-base border-b-2 rounded-md p-2 cursor-pointer ${ isAddingPin && errorCategory ? "border-red-400" : "border-gray-200"}`}
               >
                 <option value="other" className="bg-white">Select category</option>
                 {
@@ -161,11 +221,13 @@ const CreatePin = ({ user })=>{
                   ))
                 }
               </select>
+              { isAddingPin && errorCategory && <p className="text-xs text-red-400">Select a category</p>}
             </div>
             <div className="flex justify-center items-center mt-5">
               <button type="button" 
                 onClick={savePin}
-                className="bg-red-500 text-white font-bold p-2 rounded-full w-28"
+                className={`${buttonColor} text-white font-bold p-2 rounded-full w-28`}
+                disabled={isAddingPin}
               >
                 Save pin
               </button>
